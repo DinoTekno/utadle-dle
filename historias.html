@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1e1b4b">
+<title>Catálogo de Animes — Ultimate Anime DLE</title>
+<meta name="description" content="Explore os 100 animes do Ultimate Anime DLE com covers, estúdios, anos e gêneros.">
+<link rel="stylesheet" href="css/style.css?v=tema-icone-1">
+<script src="js/transicoes.js?v=acessibilidade-1" defer></script>
+<script src="js/temas.js?v=icone-1" defer></script>
+<link rel="stylesheet" href="css/acessibilidade.css?v=1">
+<script src="js/acessibilidade.js?v=1" defer></script>
+</head>
+<body class="pagina-interna pagina-historias">
+<a class="pular" href="#principal">Pular para o conteúdo</a>
+<header class="topo">
+  <div class="wrap">
+    <a class="marca" href="index.html"><i>🎌</i> Ultimate Anime DLE</a>
+    <nav aria-label="Principal">
+      <a href="index.html#inicio">O projeto</a>
+      <a href="como-funciona.html">Como funciona</a>
+      <a href="historias.html" aria-current="page">Animes</a>
+      <a class="destaque" href="jogo.html">Jogar</a>
+      <button id="tema-site" class="botao-tema" type="button" aria-label="Mudar tema">
+        <span aria-hidden="true">◐</span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="principal">
+  <section class="historias-abertura" aria-labelledby="titulo-historias">
+    <div class="wrap">
+      <p class="historias-chamada">Cem títulos. Infinitas histórias.</p>
+      <h1 id="titulo-historias">O catálogo do <em>Ultimate Anime DLE.</em></h1>
+      <p class="historias-intro">Todos os 100 animes do jogo, com capa e detalhes.
+         Clique em qualquer card para abrir no MyAnimeList.</p>
+    </div>
+  </section>
+
+  <section id="catalogo" aria-labelledby="titulo-catalogo">
+    <div class="wrap">
+      <h2 id="titulo-catalogo" class="sr">Catálogo</h2>
+
+      <label class="rotulo catalogo-busca" for="busca-anime">Pesquisar anime</label>
+      <input id="busca-anime" class="catalogo-busca-campo" type="search"
+             placeholder="Digite o nome de um anime" autocomplete="off">
+
+      <!-- Filtros -->
+      <nav class="catalogo-filtros" aria-label="Filtrar animes">
+        <strong style="font-size:.85rem;align-self:center;margin-right:.4rem">Rating:</strong>
+        <button class="ativo" data-filtro="rating" data-valor="">Todos</button>
+        <button data-filtro="rating" data-valor="9-10">⭐ 9–10</button>
+        <button data-filtro="rating" data-valor="8-9">⭐ 8–9</button>
+        <button data-filtro="rating" data-valor="7-8">⭐ 7–8</button>
+        <strong style="font-size:.85rem;align-self:center;margin-left:.8rem;margin-right:.4rem">Episódios:</strong>
+        <button class="ativo" data-filtro="eps" data-valor="">Todos</button>
+        <button data-filtro="eps" data-valor="curto (1-13)">Curto</button>
+        <button data-filtro="eps" data-valor="médio (14-26)">Médio</button>
+        <button data-filtro="eps" data-valor="longo (27+)">Longo</button>
+      </nav>
+
+      <p class="catalogo-total" id="catalogo-total" aria-live="polite"></p>
+      <div class="catalogo-grid" id="catalogo-grid" aria-label="Lista de animes"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <strong>Ultimate Anime DLE</strong>
+    <p>Jogo de adivinhação de animes</p>
+  </div>
+</footer>
+
+<script src="js/escrita.js?v=acessibilidade-1"></script>
+<script src="js/animes.js?v=2"></script>
+<script src="js/img-loader.js?v=5"></script>
+<script>
+(function () {
+  "use strict";
+
+  var filtroRating = "";
+  var filtroEps    = "";
+  var consulta     = "";
+  var grid  = document.getElementById("catalogo-grid");
+  var total = document.getElementById("catalogo-total");
+  var campoBusca = document.getElementById("busca-anime");
+
+  function normalizar(texto) {
+    return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+  }
+
+  campoBusca.addEventListener("input", function () {
+    consulta = normalizar(campoBusca.value);
+    renderizar();
+  });
+
+  /* ── botões de filtro ─────────────────────────────── */
+  document.querySelectorAll("[data-filtro]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var grupo = btn.dataset.filtro;
+      document.querySelectorAll("[data-filtro='" + grupo + "']")
+        .forEach(function (b) { b.classList.remove("ativo"); });
+      btn.classList.add("ativo");
+      if (grupo === "rating") filtroRating = btn.dataset.valor;
+      else                    filtroEps    = btn.dataset.valor;
+      renderizar();
+    });
+  });
+
+  /* ── render ───────────────────────────────────────── */
+  function renderizar() {
+    var lista = window.ANIMES.filter(function (a) {
+      return (!filtroRating || a.faixaRating === filtroRating) &&
+             (!filtroEps    || a.numeroEpisodios === filtroEps) &&
+             (!consulta     || normalizar(a.nome).indexOf(consulta) !== -1);
+    });
+
+    total.textContent = lista.length
+      ? lista.length + " anime" + (lista.length !== 1 ? "s" : "")
+      : "Nenhum anime encontrado.";
+    grid.innerHTML = "";
+    if (!lista.length) {
+      var vazio = document.createElement("p");
+      vazio.className = "vazio";
+      vazio.textContent = "Tente outro nome ou ajuste os filtros.";
+      grid.appendChild(vazio);
+      return;
+    }
+
+    lista.forEach(function (a) {
+      /* O card inteiro é um link para o MAL */
+      var card = document.createElement("a");
+      card.className  = "anime-card";
+      card.href       = "https://myanimelist.net/anime/" + a.malId;
+      card.target     = "_blank";
+      card.rel        = "noopener noreferrer";
+      card.setAttribute("aria-label", a.nome + " — ver no MyAnimeList");
+
+      /* ── capa ─────────────────────────────────────── */
+      var wrap = document.createElement("div");
+      wrap.className = "anime-card-capa capa-wrapper";
+
+      /* Inicial como placeholder (fica por baixo da foto) */
+      var ini = document.createElement("span");
+      ini.className = "ini";
+      ini.setAttribute("aria-hidden", "true");
+      ini.textContent = a.nome.charAt(0).toUpperCase();
+      wrap.appendChild(ini);
+
+      var img = document.createElement("img");
+      img.alt = a.nome;
+      img.loading = "lazy";
+      wrap.appendChild(img);
+      card.appendChild(wrap);
+
+      /* ── info ─────────────────────────────────────── */
+      var info = document.createElement("div");
+      info.className = "anime-card-info";
+
+      var h3 = document.createElement("h3");
+      h3.textContent = a.nome;
+      info.appendChild(h3);
+
+      var sm = document.createElement("small");
+      sm.textContent = a.anoLancamento + " · " + a.studio;
+      info.appendChild(sm);
+
+      var rat = document.createElement("span");
+      rat.className = "anime-card-rating";
+      rat.textContent = "⭐ " + a.faixaRating;
+      info.appendChild(rat);
+
+      card.appendChild(info);
+      grid.appendChild(card);
+
+      /* carrega só quando o card entrar na viewport */
+      window.carregarImagem(a.malId, img);
+    });
+  }
+
+  renderizar();
+
+  /* pré-aquece o resto em background depois que a página carregou */
+
+})();
+</script>
+</body>
+</html>

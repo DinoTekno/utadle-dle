@@ -1,0 +1,996 @@
+/* ===== BLOCO CSS 1 de 68 · importância: essencial =====
+   TÍTULO: Paleta e fontes (tema claro)
+   O QUE FAZ: Define em :root as variáveis de cor e de fonte do site. Paleta tema anime: azul-noturno como cor de marca, verde/vermelho semânticos para acertos/erros. Todo o resto do CSS usa var(--nome); trocar uma cor aqui muda o site inteiro. */
+:root{
+  --lilas:#eef2ff;        /* indigo-50 — tint suave */
+  --lilas-forte:#a5b4fc;  /* indigo-300 — tint médio */
+  --ameixa:#1e1b4b;       /* indigo-950 — cor de marca (deep navy anime) */
+  --papel:#f8f9ff;
+  --menta:#bfeadb;
+  --menta-escura:#0f6b50;
+  --coral:#ffd3c9;
+  --coral-escura:#a63a22;
+  --texto:#2b1a3d;
+  --suave:#5d4b73;
+  --serif:Georgia,"Iowan Old Style","Palatino Linotype",serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+
+
+/* ===== BLOCO CSS 2 de 68 · importância: essencial =====
+   TÍTULO: Paleta do tema escuro
+   O QUE FAZ: Quando o <html> recebe data-tema="escuro" (feito por js/temas.js), as mesmas variáveis ganham cores escuras. Como o resto do CSS só usa variáveis, a página inteira escurece sem precisar de outras regras. */
+:root[data-tema="escuro"]{
+    --lilas:#1e1b4b;        /* indigo-950 */
+    --lilas-forte:#312e81; /* indigo-900 */
+    --ameixa:#e0e7ff;      /* indigo-100 */
+    --papel:#06060f;
+    --menta:#1d4a3c;
+    --menta-escura:#8fe3c3;
+    --coral:#5a2a20;
+    --coral-escura:#ffb3a1;
+    --texto:#f3ecff;
+    --suave:#c3b4da;
+}
+
+
+/* ===== BLOCO CSS 3 de 68 · importância: essencial =====
+   TÍTULO: Base da página (reset, corpo, títulos, foco e .wrap)
+   O QUE FAZ: box-sizing border-box em tudo; rolagem suave com folga para o cabeçalho fixo (e sem suavidade se o usuário pede menos movimento); define fonte, cor e fundo do body; títulos com fonte serifada; parágrafos com largura limitada; contorno visível no foco do teclado; .wrap centraliza o conteúdo com largura máxima de 68rem. */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:5rem}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--papel);color:var(--texto);font:1.0625rem/1.65 var(--sans)}
+h1,h2,h3{font-family:var(--serif);line-height:1.1;margin:0;font-weight:700}
+p{margin:0 0 1em;max-width:62ch}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--menta-escura);outline-offset:3px;border-radius:4px}
+.wrap{width:min(100% - 2.5rem,68rem);margin-inline:auto}
+
+
+/* ===== BLOCO CSS 4 de 68 · importância: importante =====
+   TÍTULO: .pular: link 'pular para o conteúdo'
+   O QUE FAZ: Fica escondido acima da tela e desce para o topo só quando recebe foco do teclado (tecla Tab). Ajuda quem navega sem mouse a ir direto ao conteúdo. */
+.pular{position:absolute;left:1rem;top:-4rem;background:var(--ameixa);color:var(--papel);padding:.6rem 1rem;border-radius:8px;z-index:20}
+.pular:focus{top:1rem}
+
+
+/* ===== BLOCO CSS 5 de 68 · importância: essencial =====
+   TÍTULO: Cabeçalho: barra fixa, marca e menu
+   O QUE FAZ: .topo gruda no alto da tela (sticky); .marca é o logotipo com o ícone; o menu (.topo nav) tem links em formato de pílula, com fundo ao passar o mouse e a classe .destaque (botão Jogar) em cor escura. */
+.topo{position:sticky;top:0;z-index:10;background:var(--lilas);border-bottom:2px solid var(--ameixa)}
+.topo .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:.75rem}
+.marca{display:flex;align-items:center;gap:.6rem;text-decoration:none;font-family:var(--serif);font-weight:700;font-size:1.15rem}
+.marca i{display:grid;place-items:center;width:2.2rem;height:2.2rem;border-radius:50% 50% 50% 8px;background:var(--ameixa);color:var(--lilas);font-style:normal;font-size:1.1rem}
+.topo nav{display:flex;gap:.4rem}
+.topo nav a{padding:.45rem .9rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.95rem}
+.topo nav a:hover{background:var(--papel)}
+.topo nav a.destaque{background:var(--ameixa);color:var(--papel)}
+
+
+/* ===== BLOCO CSS 6 de 68 · importância: essencial =====
+   TÍTULO: Abertura (primeira tela) e botão principal
+   O QUE FAZ: .abertura é a faixa lilás do início, em duas colunas (texto e cartas), com título gigante que se adapta à tela via clamp(). .botao é o botão grande com sombra deslocada, que se move no hover e 'afunda' ao clicar. */
+.abertura{background:var(--lilas);padding:clamp(3rem,9vw,7rem) 0 0;overflow:hidden}
+.abertura .wrap{display:grid;gap:3rem;grid-template-columns:1.15fr .85fr;align-items:end}
+.abertura h1{font-size:clamp(3rem,9vw,6.5rem);letter-spacing:-.03em}
+.abertura h1 em{display:block;font-weight:400;color:var(--suave)}
+.abertura .lide{font-size:1.25rem;margin-top:1.5rem;max-width:34ch}
+.botao{display:inline-block;margin:.5rem 0 3rem;padding:.95rem 1.6rem;background:var(--ameixa);color:var(--papel);border-radius:999px;font-weight:700;text-decoration:none;box-shadow:5px 5px 0 var(--lilas-forte)}
+.botao:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--lilas-forte)}
+.botao:active{transform:none;box-shadow:2px 2px 0 var(--lilas-forte)}
+
+
+/* ===== BLOCO CSS 7 de 68 · importância: complementar =====
+   TÍTULO: Pilha de cartas (versão inicial)
+   O QUE FAZ: Posiciona 3 cartas sobrepostas e inclinadas dentro de .cartas. Esta versão é refeita mais abaixo (bloco do leque de 5 cartas), que sobrescreve vários destes valores. */
+.cartas{position:relative;height:21rem;margin-bottom:-2rem}
+.carta{position:absolute;width:11.5rem;aspect-ratio:3/4;border:2px solid var(--ameixa);border-radius:18px;padding:1rem;background:var(--papel);display:flex;flex-direction:column;justify-content:space-between;box-shadow:6px 6px 0 var(--ameixa)}
+.carta b{font-family:var(--serif);font-size:2.6rem;line-height:1}
+.carta span{font-size:.85rem;line-height:1.3;color:var(--suave)}
+.carta:nth-child(1){left:0;top:3.5rem;transform:rotate(-8deg);background:var(--menta)}
+.carta:nth-child(2){left:5rem;top:1rem;transform:rotate(3deg);background:var(--coral)}
+.carta:nth-child(3){left:10rem;top:4.5rem;transform:rotate(11deg)}
+.carta:nth-child(3) b{color:var(--menta-escura)}
+
+
+/* ===== BLOCO CSS 8 de 68 · importância: importante =====
+   TÍTULO: Seções e título de seção
+   O QUE FAZ: Toda <section> ganha espaço vertical que cresce com a tela; .titulo é o título grande de cada seção. */
+section{padding:clamp(3.5rem,8vw,6rem) 0}
+.titulo{font-size:clamp(2rem,5vw,3.2rem);margin-bottom:1.2rem;letter-spacing:-.02em}
+
+
+/* ===== BLOCO CSS 9 de 68 · importância: importante =====
+   TÍTULO: Passos numerados (Como funciona)
+   O QUE FAZ: A lista .passos vira 3 cartões lado a lado. O número no círculo é gerado pelo próprio CSS (counter), então não precisa estar escrito no HTML. */
+.passos{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;list-style:none;padding:0;margin:2.5rem 0 0;counter-reset:p}
+.passos li{counter-increment:p;position:relative;padding:1.5rem;border:2px solid var(--ameixa);border-radius:20px;background:var(--lilas)}
+.passos li::before{content:counter(p);position:absolute;top:-1.1rem;left:1.2rem;display:grid;place-items:center;width:2.2rem;height:2.2rem;border-radius:50%;background:var(--ameixa);color:var(--papel);font-weight:700}
+.passos h3{font-size:1.35rem;margin-bottom:.5rem}
+.passos p{margin:0;color:var(--suave)}
+
+
+/* ===== BLOCO CSS 10 de 68 · importância: importante =====
+   TÍTULO: Legenda de cores dos resultados
+   O QUE FAZ: Quadro .legenda com 4 caixinhas e as classes de estado reutilizadas pelo site: .ok (verde), .erro (coral), .perto (amarelo) e .seta (lilás). Se o sistema do usuário está no modo escuro, o amarelo ganha tons mais escuros. */
+.legenda{margin-top:2.5rem;display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}
+.legenda div{padding:.9rem 1rem;border-radius:14px;font-size:.95rem;line-height:1.4}
+.legenda b{display:block;font-size:1.4rem}
+.ok{background:var(--menta);color:var(--menta-escura)}
+.erro{background:var(--coral);color:var(--coral-escura)}
+.perto{background:#fff1b8;color:#7a5a00}
+.seta{background:var(--lilas);color:var(--ameixa)}
+@media (prefers-color-scheme:dark){.perto{background:#4d3f0c;color:#ffe27a}}
+
+
+/* ===== BLOCO CSS 11 de 68 · importância: importante =====
+   TÍTULO: Painel do jogo e sanfonas (details)
+   O QUE FAZ: #jogo tem fundo lilás; .jogo é a grade da área do jogo; .painel é o cartão claro com borda e sombra dura; details/summary viram sanfonas com '+' e '–' no lugar da setinha padrão do navegador. */
+#jogo{background:var(--lilas)}
+.jogo{margin-top:2rem;display:grid;grid-template-columns:1fr 1.1fr;gap:2rem;align-items:start}
+.painel{background:var(--papel);border:2px solid var(--ameixa);border-radius:24px;padding:1.5rem;box-shadow:6px 6px 0 var(--ameixa)}
+.painel h3{font-size:1.4rem;margin-bottom:1rem}
+details{border-top:2px dashed var(--lilas-forte);padding:.8rem 0}
+details:first-of-type{border-top:0}
+summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:1.4rem;line-height:1}
+details[open] summary::after{content:"–"}
+details p{margin:.6rem 0 0;color:var(--suave)}
+
+
+/* ===== BLOCO CSS 12 de 68 · importância: importante =====
+   TÍTULO: Opções (.opcao) e jogo antigo feito só com CSS
+   O QUE FAZ: .opcao é a linha clicável com foto/iniciais e nome; hoje é usada pela lista de sugestões montada em js/jogo.js. Já .opcoes, os radios escondidos, .resultado, as regras :has(#g-...) e .recomecar vêm de uma versão antiga do jogo (100% CSS) e não são usadas pelo HTML atual. */
+.opcoes{display:grid;gap:.6rem}
+.jogo input[type=radio]{position:absolute;opacity:0;pointer-events:none}
+.opcao{display:flex;align-items:center;gap:.9rem;padding:.8rem 1rem;border:2px solid var(--ameixa);border-radius:14px;cursor:pointer;background:var(--papel)}
+.opcao:hover{background:var(--lilas)}
+.opcao .ini{display:grid;place-items:center;flex:none;width:2.6rem;height:2.6rem;border-radius:50%;background:var(--lilas-forte);font-family:var(--serif);font-weight:700;color:#2b1a3d}
+.opcao small{display:block;color:var(--suave);line-height:1.3}
+input:focus-visible + .opcao{outline:3px solid var(--menta-escura);outline-offset:3px}
+input:checked + .opcao{background:var(--ameixa);color:var(--papel)}
+input:checked + .opcao small{color:var(--lilas-forte)}
+
+
+.resultado{display:none;margin-top:1.2rem;padding:1.1rem 1.2rem;border-radius:16px;line-height:1.5}
+.resultado h4{font-family:var(--serif);font-size:1.3rem;margin:0 0 .4rem}
+.resultado p{margin:0 0 .6rem}
+.resultado .pistas{display:flex;flex-wrap:wrap;gap:.4rem}
+.resultado .pistas span{padding:.25rem .7rem;border-radius:999px;font-size:.88rem;font-weight:700}
+.jogo:has(#g-ada:checked) .r-ada{display:block;background:var(--menta);color:var(--menta-escura)}
+.jogo:has(#g-hopper:checked) .r-hopper,
+.jogo:has(#g-lamarr:checked) .r-lamarr,
+.jogo:has(#g-perlman:checked) .r-perlman,
+.jogo:has(#g-johnson:checked) .r-johnson{display:block;background:var(--coral);color:var(--coral-escura)}
+.recomecar{display:inline-block;margin-top:1rem;font-weight:700;text-decoration:underline;cursor:pointer}
+
+
+/* ===== BLOCO CSS 13 de 68 · importância: complementar =====
+   TÍTULO: Perfis (sem uso atual)
+   O QUE FAZ: Cartões .perfis/.perfil de uma versão anterior da página, alternando verde e coral. Nenhum HTML ou JS atual usa estas classes; o bloco pode ser removido com segurança. */
+.perfis{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1.25rem;margin-top:2.5rem}
+.perfil{border:2px solid var(--ameixa);border-radius:20px;padding:1.4rem;background:var(--papel)}
+.perfil:nth-child(odd){background:var(--menta)}
+.perfil:nth-child(even){background:var(--coral)}
+.perfil .ano{font-family:var(--serif);font-size:2.4rem;font-weight:700;line-height:1;display:block;margin-bottom:.6rem}
+.perfil h3{font-size:1.3rem;margin-bottom:.4rem}
+.perfil p{margin:0;font-size:.98rem}
+.perfil, .perfil p{color:#2b1a3d}
+
+
+/* ===== BLOCO CSS 14 de 68 · importância: importante =====
+   TÍTULO: Rodapé
+   O QUE FAZ: footer tem fundo escuro (ameixa), conteúdo em linha que quebra em telas estreitas e texto em lilás suave. No modo escuro do sistema, o fundo fica ainda mais escuro. */
+footer{background:var(--ameixa);color:var(--papel);padding:2.5rem 0}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
+footer p{margin:0;color:var(--lilas-forte)}
+@media (prefers-color-scheme:dark){footer{background:#06060f}}
+
+
+/* ===== BLOCO CSS 15 de 68 · importância: importante =====
+   TÍTULO: Ajustes para celular (até 52rem)
+   O QUE FAZ: Abertura e jogo passam para 1 coluna, os passos ficam em 1 coluna, a legenda em 2, as cartas diminuem e o menu mostra só o botão em destaque (os outros links somem). */
+@media (max-width:52rem){
+  .abertura .wrap,.jogo{grid-template-columns:1fr}
+  .passos{grid-template-columns:1fr;gap:1.8rem}
+  .legenda{grid-template-columns:1fr 1fr}
+  .cartas{height:19rem;margin-inline:auto;width:21rem;max-width:100%}
+  .topo nav a:not(.destaque){display:none}
+}
+
+
+/* ===== BLOCO CSS 16 de 68 · importância: importante =====
+   TÍTULO: Utilitários: texto só para leitor de tela, nota, aviso e rótulo
+   O QUE FAZ: .sr esconde o elemento da vista mas o leitor de tela continua lendo; .nota é texto pequeno e suave; .aviso é a caixa tracejada de alerta; .rotulo é o título em negrito acima de um campo. */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.nota{font-size:.92rem;color:var(--suave);margin-top:1rem}
+.aviso{padding:.8rem 1rem;border:2px dashed var(--coral-escura);background:var(--coral);color:var(--coral-escura);border-radius:14px;font-weight:600}
+.rotulo{display:block;font-weight:700;margin-bottom:.4rem}
+
+
+/* ===== BLOCO CSS 17 de 68 · importância: essencial =====
+   TÍTULO: Campo de busca e lista de sugestões
+   O QUE FAZ: .busca é o campo de digitar o nome; #sugestoes é a lista que aparece logo abaixo (posição absoluta, rolagem própria, sombra dura); .opcao.ativa marca o item escolhido com as setas; .foto é o retrato redondo; .sem-resultado é a mensagem de lista vazia. */
+.busca{position:relative}
+.busca input{width:100%;padding:.85rem 1rem;font:inherit;color:var(--texto);background:var(--papel);border:2px solid var(--ameixa);border-radius:14px}
+.busca input:disabled{opacity:.55}
+#sugestoes{position:absolute;left:0;right:0;top:calc(100% + .4rem);z-index:5;margin:0;padding:.4rem;list-style:none;max-height:16rem;overflow:auto;background:var(--papel);border:2px solid var(--ameixa);border-radius:14px;box-shadow:5px 5px 0 var(--ameixa)}
+#sugestoes .opcao{border:0;border-radius:10px;padding:.5rem .6rem}
+#sugestoes .opcao.ativa{background:var(--ameixa);color:var(--papel)}
+.foto{width:2.6rem;height:2.6rem;border-radius:50%;object-fit:cover;flex:none}
+.sem-resultado{padding:.6rem;color:var(--suave)}
+
+
+/* ===== BLOCO CSS 18 de 68 · importância: importante =====
+   TÍTULO: Botão secundário e texto vazio
+   O QUE FAZ: .botao-sec é o botão em pílula clara (hover mais forte, apagado quando desativado); .vazio é a mensagem suave mostrada quando ainda não há palpites. */
+.botao-sec{margin-top:1.2rem;padding:.7rem 1.2rem;font:inherit;font-weight:700;color:var(--texto);background:var(--lilas);border:2px solid var(--ameixa);border-radius:999px;cursor:pointer}
+.botao-sec:hover{background:var(--lilas-forte)}
+.botao-sec:disabled{opacity:.5;cursor:not-allowed}
+.vazio{color:var(--suave);margin:0}
+
+
+/* ===== BLOCO CSS 19 de 68 · importância: importante =====
+   TÍTULO: Tentativas e chips (base)
+   O QUE FAZ: .tentativa separa cada palpite com uma linha tracejada e dá título em fonte serifada. .chips/.chip são etiquetas arredondadas de uma versão anterior: hoje os resultados aparecem em quadrados (blocos abaixo). */
+.tentativa{padding:1rem 0;border-top:2px dashed var(--lilas-forte)}
+.tentativa:first-of-type{border-top:0;padding-top:0}
+.tentativa h4{font-family:var(--serif);font-size:1.2rem;margin:0 0 .6rem}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem}
+.chip{padding:.3rem .7rem;border-radius:999px;font-size:.88rem;font-weight:600;line-height:1.35}
+.chip.indisp{background:var(--lilas);color:var(--suave)}
+
+
+/* ===== BLOCO CSS 20 de 68 · importância: importante =====
+   TÍTULO: Cartão de vitória (base)
+   O QUE FAZ: .vitoria é o cartão verde mostrado ao acertar, com título, subtítulo, nome da resposta e lista de fontes. Mais abaixo ele recebe borda, selo e animação. */
+.vitoria{margin-top:1.2rem;padding:1.2rem;border-radius:16px;background:var(--menta);color:var(--menta-escura)}
+.vitoria h4{font-family:var(--serif);font-size:1.5rem;margin:0 0 .4rem}
+.vitoria h5{margin:1rem 0 .3rem;font-size:1rem}
+.vitoria .nome-resposta{font-weight:700;font-size:1.15rem}
+.vitoria ul{margin:0;padding-left:1.2rem}
+
+
+/* ===== BLOCO CSS 21 de 68 · importância: essencial =====
+   TÍTULO: Layout do jogo: coluna principal e resumo lateral
+   O QUE FAZ: .jogo passa a ter 2 colunas (principal flexível + 18rem de resumo das pistas); .jogo-principal empilha os painéis; na página do jogo o conteúdo fica mais largo (80rem). Abaixo de 68rem tudo vira uma coluna só. */
+.jogo{grid-template-columns:minmax(0,1fr) 18rem;gap:1.5rem}
+.jogo-principal{display:grid;gap:1.5rem;min-width:0}
+.jogo-principal>.painel{min-width:0}
+.pagina-jogo #jogo>.wrap{width:min(100% - 2.5rem,80rem)}
+@media (max-width:68rem){.jogo{grid-template-columns:minmax(0,1fr)}}
+
+
+/* ===== BLOCO CSS 22 de 68 · importância: essencial =====
+   TÍTULO: Grade de palpites e quadrados (.quad)
+   O QUE FAZ: .grade-rolagem permite rolar de lado em telas pequenas; .grade é a tabela de palpites; cada .quad é um quadrado colorido: .ok verde, .erro vermelho, .perto amarelo, .indisp neutro. .valor é o texto, .sinal é o símbolo no canto e .nome é o quadrado com a foto da mulher. */
+.grade-rolagem{overflow-x:auto;padding-bottom:.4rem}
+.grade{width:100%;min-width:38rem;table-layout:fixed;border-collapse:separate;border-spacing:.4rem}
+.grade thead th{padding:.2rem 0 .5rem;border-bottom:3px solid var(--ameixa);font-size:.76rem;text-transform:uppercase;letter-spacing:.04em;text-align:center;vertical-align:bottom}
+.quad{position:relative;height:5.6rem;padding:.4rem;overflow:hidden;text-align:center;vertical-align:middle;font-size:.95rem;font-weight:600;line-height:1.2;color:#fff;border:2px solid rgba(0,0,0,.2);border-radius:12px}
+.quad .valor{position:relative;z-index:1;overflow-wrap:anywhere}
+.quad .sinal{position:absolute;top:.2rem;right:.4rem;z-index:1;font-size:.85rem;opacity:.9}
+.quad.ok{background:#25794a}
+.quad.erro{background:#c62f2f}
+.quad.perto{background:#f4c542;color:#2b1a3d}
+.quad.indisp{background:var(--lilas);color:var(--suave)}
+.quad.nome{display:table-cell;background:var(--papel);color:var(--texto);border-color:var(--ameixa);font-size:.8rem}
+.quad.nome .foto,.quad.nome .ini{display:grid;place-items:center;margin:0 auto .25rem;width:2.4rem;height:2.4rem}
+
+
+/* ===== BLOCO CSS 23 de 68 · importância: importante =====
+   TÍTULO: Setas de ano (↑ e ↓)
+   O QUE FAZ: Desenha uma seta grande e translúcida no fundo do quadrado do ano com clip-path: .antes aponta para baixo (o ano certo é menor) e .depois é a mesma seta virada para cima (o ano certo é maior). */
+/* Seta grande ao fundo: ↓ quando o ano certo é menor, ↑ quando é maior */
+.quad.antes::before,.quad.depois::before{content:"";position:absolute;inset:.3rem .7rem;background:rgba(0,0,0,.3);clip-path:polygon(50% 100%,0 45%,32% 45%,32% 0,68% 0,68% 45%,100% 45%)}
+.quad.depois::before{transform:scaleY(-1)}
+
+
+/* ===== BLOCO CSS 24 de 68 · importância: complementar =====
+   TÍTULO: Animação: quadrados aparecem um de cada vez
+   O QUE FAZ: @keyframes virar faz o quadrado 'virar' como uma carta. O atraso de cada um é calculado por --i (posição do quadrado), então aparecem em sequência. Com 'reduzir movimento', os quadrados aparecem direto, sem animar. */
+.quad.nova{opacity:0;animation:virar .5s ease-out forwards;animation-delay:calc(var(--i) * .35s)}
+@keyframes virar{
+  0%{opacity:0;transform:perspective(600px) rotateX(65deg) scale(.97)}
+  60%{opacity:1;transform:perspective(600px) rotateX(-4deg)}
+  100%{opacity:1;transform:perspective(600px) rotateX(0)}
+}
+@media (prefers-reduced-motion:reduce){
+  .quad.nova{opacity:1;animation:none}
+  .vitoria:not([hidden]){animation:none}
+}
+
+
+/* ===== BLOCO CSS 25 de 68 · importância: importante =====
+   TÍTULO: Duas páginas: link ativo e estrutura da página do jogo
+   O QUE FAZ: Destaca no menu o link da página atual (aria-current); .pagina-jogo organiza a página em coluna ocupando a altura toda, com o miolo em lilás. */
+.topo nav a[aria-current="page"]{box-shadow:0 0 0 3px var(--lilas-forte)}
+.pagina-jogo{display:flex;flex-direction:column;min-height:100vh}
+.pagina-jogo main{flex:1;background:var(--lilas)}
+.pagina-jogo #jogo{padding-top:clamp(2rem,5vw,3.5rem)}
+
+
+/* ===== BLOCO CSS 26 de 68 · importância: essencial =====
+   TÍTULO: Cartas da abertura em leque (5 cartas)
+   O QUE FAZ: Refaz .cartas em unidade em: largura 26em e cada carta posicionada com left/top e inclinada pela variável --r. Como tudo é em em, para reduzir o leque basta mudar o font-size de .cartas. A carta do meio é maior e fica por cima. */
+/* Tudo em "em": no celular basta diminuir o font-size do .cartas */
+.cartas{font-size:1rem;width:26em;max-width:100%;height:21em;margin-bottom:-2rem}
+.cartas .carta{--r:0deg;width:11.5em;padding:1em;font-size:1em;z-index:1;
+  transform:rotate(var(--r));transform-origin:50% 90%;
+  transition:transform .3s cubic-bezier(.2,.8,.3,1.2),box-shadow .3s ease}
+.cartas .carta b{font-size:2.6em}
+.cartas .carta span{font-size:.85em}
+.cartas .carta:nth-child(1){--r:-12deg;left:0;top:3.6em;background:var(--menta)}
+.cartas .carta:nth-child(2){--r:-6deg;left:3.65em;top:1.8em;background:var(--coral)}
+.cartas .carta:nth-child(3){--r:0deg;left:6.75em;top:.4em;width:12.5em;z-index:3;background:var(--papel)}
+.cartas .carta:nth-child(4){--r:6deg;left:10.85em;top:1.8em;background:var(--coral)}
+.cartas .carta:nth-child(5){--r:12deg;left:14.5em;top:3.6em;background:var(--menta)}
+.cartas .carta:nth-child(3) b{color:var(--menta-escura)}
+
+
+/* ===== BLOCO CSS 27 de 68 · importância: importante =====
+   TÍTULO: Hover das cartas e botão dentro da carta
+   O QUE FAZ: Ao passar o mouse (ou focar por dentro) a carta se endireita, sobe, aumenta e ganha sombra maior. .carta-botao é o botãozinho 'Saiba mais'/'Jogar' dentro da carta. */
+.cartas .carta:hover,.cartas .carta:focus-within{
+  transform:rotate(0deg) translateY(-.7em) scale(1.1);z-index:10;box-shadow:10px 10px 0 var(--ameixa)}
+.carta-botao{display:block;margin-top:.5em;padding:.6em 1em;text-align:center;font-size:.95em;font-weight:700;
+  text-decoration:none;color:var(--papel);background:var(--ameixa);border-radius:999px;
+  transition:background .2s ease,transform .2s ease}
+.carta-botao:hover{background:var(--menta-escura);transform:scale(1.05)}
+
+
+/* ===== BLOCO CSS 28 de 68 · importância: importante =====
+   TÍTULO: Cartas no celular e sem movimento
+   O QUE FAZ: Em telas até 52rem o leque encolhe (font-size menor, centralizado). Se o usuário pede menos movimento, as transições das cartas e do botão são desligadas. */
+@media (max-width:52rem){
+  .cartas{font-size:.72rem;margin-inline:auto;width:26em;height:21em}
+}
+@media (prefers-reduced-motion:reduce){
+  .cartas .carta,.carta-botao{transition:none}
+}
+
+
+/* ===== BLOCO CSS 29 de 68 · importância: importante =====
+   TÍTULO: Página 'Como funciona' e ajuste do leque
+   O QUE FAZ: .pagina-interna deixa a página em coluna com o rodapé no fim; o leque sobe um pouco e o hover fica um pouco mais contido (sobrescreve o bloco anterior). */
+.pagina-interna{display:flex;flex-direction:column;min-height:100vh}
+.pagina-interna main{flex:1}
+
+
+/* Leque um pouco mais alto e hover mais forte */
+.cartas{position:relative;top:-1.5rem}
+.cartas .carta:hover,.cartas .carta:focus-within{
+  transform:rotate(0deg) translateY(-.65em) scale(1.08);box-shadow:8px 8px 0 var(--ameixa)}
+
+
+/* ===== BLOCO CSS 30 de 68 · importância: essencial =====
+   TÍTULO: Página inicial ocupando a tela inteira
+   O QUE FAZ: .pagina-inicial usa flex em coluna com altura mínima de 100dvh, e a abertura cresce para preencher o espaço, centralizando o conteúdo (sem faixa vazia embaixo). */
+.pagina-inicial{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
+.pagina-inicial main{flex:1;display:flex;flex-direction:column}
+.pagina-inicial .abertura{flex:1;display:flex;flex-direction:column;justify-content:center;
+  padding-bottom:clamp(3rem,9vw,7rem)}
+.pagina-inicial .abertura .wrap{align-items:center}
+.pagina-inicial .cartas{margin-bottom:0}
+
+
+/* ===== BLOCO CSS 31 de 68 · importância: importante =====
+   TÍTULO: Página inicial: cartas maiores que escalam com a coluna
+   O QUE FAZ: A coluna da abertura vira um 'container' (container-type) e o tamanho do leque é calculado com unidades cqw (largura do container) e dvh (altura da tela), então as cartas crescem e diminuem junto com o espaço disponível. */
+/* (tudo dentro das cartas está em "em", então basta mudar o font-size) */
+.pagina-inicial .abertura{padding-top:clamp(2rem,6vh,4rem);padding-bottom:clamp(2rem,6vh,4rem)}
+.pagina-inicial .abertura .wrap{container-type:inline-size;grid-template-columns:1fr 1.2fr}
+.pagina-inicial .botao{margin-bottom:0}
+.pagina-inicial .cartas{font-size:1.3rem;top:0;justify-self:end;
+  font-size:min(calc((100cqw - 3rem) * .545 / 27), calc((100dvh - 15rem) / 21))}
+@media (max-width:52rem){
+  .pagina-inicial .abertura .wrap{grid-template-columns:1fr}
+  .pagina-inicial .cartas{font-size:calc(100cqw / 27);margin-inline:auto;justify-self:center}
+}
+
+
+/* ===== BLOCO CSS 32 de 68 · importância: importante =====
+   TÍTULO: Textos de apresentação em sanfona (.sobre-projeto)
+   O QUE FAZ: Seção abaixo da abertura com 3 sanfonas (details) coloridas: lilás, verde e coral. O summary tem um botão redondo com '+' que vira '−' quando aberto; .texto-projeto-conteudo é o texto que aparece. */
+.sobre-projeto{padding:clamp(2.5rem,6vw,5rem) 0;background:var(--papel);border-top:2px solid var(--ameixa)}
+.sobre-projeto .wrap{display:grid;grid-template-columns:minmax(0,1fr);gap:1.25rem;max-width:54rem}
+.sobre-projeto .texto-projeto{padding:0;border:2px solid var(--ameixa);border-radius:24px;background:var(--lilas);box-shadow:5px 5px 0 var(--ameixa)}
+.sobre-projeto .texto-projeto:nth-child(2){background:var(--menta)}
+.sobre-projeto .texto-projeto:nth-child(3){background:var(--coral)}
+.texto-projeto>summary{padding:1.25rem 1.5rem;gap:1rem;align-items:center;border-radius:22px}
+.texto-projeto>summary::after{content:"+";display:grid;place-items:center;flex:0 0 2.2rem;height:2.2rem;border:2px solid currentColor;border-radius:50%;font-size:1.5rem}
+.texto-projeto[open]>summary::after{content:"−"}
+.texto-projeto h2{font-size:clamp(1.25rem,2.4vw,1.7rem);line-height:1.25;margin:0}
+.texto-projeto-conteudo{padding:0 1.5rem 1.5rem}
+.texto-projeto p{font-size:1rem;line-height:1.7;color:var(--texto);margin:0 0 1em}
+.texto-projeto p:last-child{margin-bottom:0}
+
+
+/* ===== BLOCO CSS 33 de 68 · importância: essencial =====
+   TÍTULO: Resumo das pistas acumuladas na partida (.fato)
+   O QUE FAZ: Painel lateral com uma caixa (.fato) por categoria: rótulo, valor e detalhe. .fato-confirmado fica verde (acertou), .fato-parcial muda a borda (acertou em parte) e .escrita-em-curso dá um brilho curto na lateral quando o texto é escrito pelo efeito de escrita. */
+.resumo-fatos{min-width:0}
+.resumo-fatos h3{margin-bottom:.5rem}
+.resumo-ajuda{font-size:.95rem;color:var(--suave);margin-bottom:1rem}
+.resumo-grade{display:grid;grid-template-columns:minmax(0,1fr);margin:0;border:2px solid var(--lilas-forte);border-radius:16px;overflow:hidden}
+.fato{padding:1rem;background:var(--lilas);overflow-wrap:anywhere;border-bottom:1px solid var(--lilas-forte)}
+.fato:last-child{border-bottom:0}
+.fato.escrita-em-curso{animation:fato-revelado .5s ease-out}
+@keyframes fato-revelado{from{box-shadow:inset 4px 0 var(--menta-escura);}to{box-shadow:inset 0 0 transparent}}
+.fato-rotulo{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.6rem}
+.fato-valor{margin:0;font-size:1.05rem;font-weight:700;line-height:1.35}
+.fato-detalhe{margin:.65rem 0 0;font-size:.8rem;line-height:1.5;color:var(--suave)}
+.fato-confirmado{background:var(--menta);border-color:var(--menta-escura)}
+.fato-confirmado .fato-detalhe{color:var(--menta-escura)}
+.fato-parcial{border-color:var(--suave)}
+@media (prefers-reduced-motion:reduce){.fato-atualizado{animation:none}}
+
+
+/* ===== BLOCO CSS 34 de 68 · importância: complementar =====
+   TÍTULO: Transição entre páginas
+   O QUE FAZ: js/transicoes.js coloca .pagina-entrando ou .pagina-saindo no <html>; aqui o <main> sobe levemente ao aparecer e desvanece ao sair. O cabeçalho não se move. */
+.pagina-entrando main{animation:pagina-entrar .34s cubic-bezier(.2,.7,.3,1) both}
+.pagina-saindo main{animation:pagina-sair .16s ease-in both;pointer-events:none}
+@keyframes pagina-entrar{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pagina-sair{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-3px)}}
+
+
+/* ===== BLOCO CSS 35 de 68 · importância: complementar =====
+   TÍTULO: Comemoração da vitória (selo, anel e confete)
+   O QUE FAZ: O cartão .vitoria surge com um pulinho, o selo gira e ganha um anel que se expande, e os .confete (criados por js/jogo.js dentro de .celebracao) caem em cores diferentes, sem sair do cartão. Com 'reduzir movimento', tudo isso é desligado. */
+.vitoria{position:relative;isolation:isolate;padding:1.5rem;border:2px solid var(--menta-escura)}
+.vitoria:not([hidden]){animation:acerto-surgir .9s cubic-bezier(.16,.8,.25,1) both}
+.vitoria-selo{position:relative;display:grid;place-items:center;width:4rem;height:4rem;margin-bottom:1rem;border-radius:50%;background:var(--menta-escura);color:var(--papel);font-size:1.7rem;font-weight:800;animation:acerto-selo .85s .15s both}
+.vitoria-selo::after{content:"";position:absolute;inset:-5px;border:2px solid var(--menta-escura);border-radius:inherit;animation:acerto-anel .8s .2s both;pointer-events:none}
+.celebracao{position:absolute;inset:0;overflow:hidden;border-radius:inherit;pointer-events:none;z-index:2}
+.confete{position:absolute;top:-1rem;left:var(--x);width:7px;height:12px;border-radius:2px;background:var(--menta-escura);opacity:0;animation:confete-cair 1.6s var(--atraso) ease-out both}
+.confete:nth-child(3n){background:var(--lilas-forte);border-radius:50%}
+.confete:nth-child(3n+1){background:var(--coral-escura)}
+@keyframes acerto-surgir{0%{opacity:0;transform:translateY(30px) scale(.94);box-shadow:0 0 0 0 var(--menta-escura)}55%{opacity:1;transform:translateY(-4px) scale(1.015);box-shadow:0 0 0 10px transparent}100%{opacity:1;transform:none;box-shadow:0 8px 24px #25794a22}}
+@keyframes acerto-selo{0%{opacity:0;transform:scale(.5) rotate(-12deg)}70%{opacity:1;transform:scale(1.12) rotate(3deg)}100%{opacity:1;transform:none}}
+@keyframes acerto-anel{0%{opacity:.65;transform:scale(.8)}100%{opacity:0;transform:scale(1.8)}}
+@keyframes confete-cair{0%{opacity:0;transform:translate(0,-10px) rotate(0)}12%{opacity:.9}75%{opacity:.8}100%{opacity:0;transform:translate(var(--desvio),260px) rotate(var(--giro))}}
+@media (prefers-reduced-motion:reduce){
+  .pagina-entrando main,.pagina-saindo main,.vitoria:not([hidden]),.vitoria-selo,.vitoria-selo::after{animation:none}
+  .pagina-saindo main{pointer-events:auto}
+  .celebracao,.vitoria-selo::after{display:none}
+}
+
+
+/* ===== BLOCO CSS 36 de 68 · importância: importante =====
+   TÍTULO: Carta 'Histórias' na abertura
+   O QUE FAZ: Ajusta a carta que leva à página Histórias: texto e botão alinhados à direita. */
+.carta-historias>span{align-self:flex-end;max-width:6em;text-align:right}
+.carta-historias .carta-botao{align-self:flex-end;padding-inline:.8em}
+
+
+/* ===== BLOCO CSS 37 de 68 · importância: importante =====
+   TÍTULO: Página Histórias: abertura e atalhos de tema
+   O QUE FAZ: .historias-abertura é a faixa de título da página; .temas-historias são os links em pílula que levam a cada tema (Computação, Ciência, Espaço). */
+.historias-abertura{background:var(--lilas);border-bottom:2px solid var(--ameixa);padding:clamp(2.5rem,6vw,5rem) 0}
+.historias-chamada{font-size:.85rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--suave)}
+.historias-abertura h1{font-size:clamp(2.7rem,6vw,4.8rem);letter-spacing:-.03em;max-width:15ch;margin-bottom:1.5rem}
+.historias-abertura h1 em{font-weight:400;color:var(--suave)}
+.historias-intro{font-size:1.15rem;max-width:55ch}
+.temas-historias{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem}
+.temas-historias a{display:flex;align-items:center;gap:1rem;padding:.65rem 1rem;border:2px solid var(--ameixa);border-radius:999px;background:var(--papel);font-size:.9rem;font-weight:700;text-decoration:none}
+.temas-historias a:hover{background:var(--menta)}
+
+
+/* ===== BLOCO CSS 38 de 68 · importância: importante =====
+   TÍTULO: Seções por tema (cor de fundo por variável)
+   O QUE FAZ: Cada .tema-historias usa a variável --tema-fundo, que muda com .tema-ciencia (verde) e .tema-espaco (coral). O cabeçalho do tema tem o número em um círculo e o título com a descrição. */
+.tema-historias{--tema-fundo:var(--lilas);padding:clamp(2.5rem,5vw,4rem) 0;scroll-margin-top:1rem}
+.tema-ciencia{--tema-fundo:var(--menta)}
+.tema-espaco{--tema-fundo:var(--coral)}
+.tema-historias+.tema-historias{border-top:1px solid var(--lilas-forte)}
+.tema-cabecalho{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.75rem}
+.tema-numero{display:grid;place-items:center;flex:0 0 3rem;height:3rem;border:2px solid var(--ameixa);border-radius:50% 50% 50% 8px;background:var(--tema-fundo);font-family:var(--serif);font-size:1.15rem;font-weight:700}
+.tema-cabecalho h2{font-size:clamp(1.6rem,3vw,2.3rem);margin-bottom:.6rem}
+.tema-cabecalho p{font-size:.95rem;color:var(--suave);margin:0}
+
+
+/* ===== BLOCO CSS 39 de 68 · importância: importante =====
+   TÍTULO: Grade de histórias, cartões e convite final
+   O QUE FAZ: .historias-grade mostra os cartões em 2 colunas; .historia-card é o cartão de cada mulher (marco, nome, texto e link da fonte no rodapé do cartão); .historias-convite é o chamado final para jogar. */
+.historias-grade{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.5rem}
+.historia-card{display:flex;flex-direction:column;align-items:flex-start;padding:clamp(1.25rem,3vw,2rem);border:2px solid var(--ameixa);border-radius:24px;background:var(--tema-fundo);box-shadow:5px 5px 0 var(--ameixa)}
+.historia-marco{font-size:.8rem;font-weight:700;color:var(--suave);margin-bottom:.7rem}
+.historia-card h3{font-size:1.8rem;margin-bottom:1.1rem}
+.historia-card>p:not(.historia-marco){font-size:1rem;line-height:1.75}
+.historia-fonte{margin-top:auto;padding-top:.5rem;font-size:.85rem;font-weight:700;text-underline-offset:.2em}
+.historias-convite{padding-block:1.5rem 3.5rem;border-top:2px dashed var(--lilas-forte)}
+.historias-convite .botao-sec{display:inline-block;margin-top:0;text-decoration:none}
+
+
+/* ===== BLOCO CSS 40 de 68 · importância: importante =====
+   TÍTULO: Página Histórias no celular
+   O QUE FAZ: Abaixo de 52rem a grade vira uma coluna e os links de tema ocupam a largura toda. */
+@media (max-width:52rem){
+  .historias-grade{grid-template-columns:minmax(0,1fr)}
+  .temas-historias{flex-direction:column;align-items:flex-start}
+  .temas-historias a{width:100%;justify-content:space-between}
+}
+
+
+/* ===== BLOCO CSS 41 de 68 · importância: essencial =====
+   TÍTULO: Tema 'tijolos' (paleta)
+   O QUE FAZ: Define as cores quentes (areia, marrom) do terceiro tema, que é ativado quando <html> tem data-tema="tijolos". */
+:root[data-tema="tijolos"]{--lilas:#f2dfb8;--lilas-forte:#c9ac78;--ameixa:#3e2c1d;--papel:#fff8e8;--menta:#dce5cb;--menta-escura:#38582e;--coral:#efd2b9;--coral-escura:#8c3f27;--texto:#34271c;--suave:#69543c}
+
+
+/* ===== BLOCO CSS 42 de 68 · importância: complementar =====
+   TÍTULO: Tema 'tijolos' (acabamento visual)
+   O QUE FAZ: Além das cores, este tema muda o visual: fundo de papel com textura, moldura dupla ao redor do <main>, enfeites '✦' no topo e no fim, cartões menos arredondados, retratos levemente sépia e botões quadrados. Em celular as margens diminuem. */
+html[data-tema="tijolos"] body{background-color:#eee2c9;background-image:radial-gradient(ellipse at 15% 10%,#fff9e9aa,transparent 60%),radial-gradient(#94734314 .65px,transparent .8px);background-size:100% 100%,5px 7px}
+html[data-tema="tijolos"] main,html[data-tema="tijolos"] main>section,html[data-tema="tijolos"] #jogo{background:transparent}
+html[data-tema="tijolos"] .topo,html[data-tema="tijolos"] footer{background:#f8efdc;border-color:#baa47b}
+html[data-tema="tijolos"] .topo .marca i{border-radius:4px;background:#594733;color:#fff8e8}
+html[data-tema="tijolos"] main{position:relative;margin:1.5rem clamp(.75rem,3vw,3rem);border:1px solid #bba77e;outline:1px solid #c8b58d;outline-offset:5px;background:linear-gradient(120deg,#fffaf0b3,#f7edda80);box-shadow:0 8px 32px #6f51200a}
+html[data-tema="tijolos"] main::before,html[data-tema="tijolos"] main::after{content:"✦";display:block;width:5rem;text-align:center;margin:-.9rem auto 0;color:#7e6135;background:#f6ecd7;font-size:1.1rem;line-height:1.6;pointer-events:none}
+html[data-tema="tijolos"] main::after{margin:0 auto -.9rem}
+html[data-tema="tijolos"] .painel,html[data-tema="tijolos"] .historia-card,html[data-tema="tijolos"] .sobre-projeto .texto-projeto{border:1px solid #b39a6b;border-radius:8px;background:#fff9ed;box-shadow:0 4px 14px #64461e0b}
+html[data-tema="tijolos"] .historia-card{border-top:3px double #b39a6b}
+html[data-tema="tijolos"] .historia-retrato img{border-radius:3px;filter:sepia(.12)}
+html[data-tema="tijolos"] .titulo,html[data-tema="tijolos"] h1,html[data-tema="tijolos"] h2{color:#4e3b27}
+html[data-tema="tijolos"] .temas-historias a,html[data-tema="tijolos"] .botao-sec,html[data-tema="tijolos"] .topo nav a{border-radius:5px;box-shadow:none}
+html[data-tema="tijolos"] .resumo-grade{border-radius:5px}
+html[data-tema="tijolos"] .fato{background:#f5ecda}
+html[data-tema="tijolos"] .fato-confirmado{background:var(--menta)}
+html[data-tema="tijolos"] .historias-abertura{border-bottom:1px solid #c8b58d}
+@media(max-width:52rem){html[data-tema="tijolos"] main{margin:1rem .65rem}html[data-tema="tijolos"] .pagina-jogo #jogo>.wrap{width:calc(100% - 1.5rem)}}
+
+
+/* ===== BLOCO CSS 43 de 68 · importância: complementar =====
+   TÍTULO: Seletor de tema em lista (sem uso atual)
+   O QUE FAZ: .seletor-tema era uma lista suspensa para trocar de tema. Foi substituída pelo botão .botao-tema (último bloco); o HTML atual não usa mais estas regras. */
+.seletor-tema{display:flex;align-items:center;gap:.4rem;font-size:.8rem;margin-left:auto}
+.seletor-tema select{font:inherit;color:var(--texto);background:var(--papel);border:1px solid var(--ameixa);border-radius:10px;padding:.45rem;max-width:12rem}
+
+
+/* ===== BLOCO CSS 44 de 68 · importância: importante =====
+   TÍTULO: Retratos nas histórias
+   O QUE FAZ: .historia-retrato mostra a foto da mulher em largura total, recortada (object-fit cover) com foco na parte de cima, e a legenda com crédito da imagem em letra pequena. */
+.historia-retrato{margin:1rem 0 1.25rem;width:100%}
+.historia-retrato img{display:block;width:100%;height:19rem;object-fit:cover;object-position:center 20%;border-radius:14px;background:var(--lilas)}
+.historia-retrato figcaption{font-size:.7rem;color:var(--suave);line-height:1.5;margin-top:.5rem}
+
+
+/* ===== BLOCO CSS 45 de 68 · importância: importante =====
+   TÍTULO: Foto no quadrado do nome e controles do jogo
+   O QUE FAZ: Na grade, o quadrado do nome mostra a foto (ou as iniciais) em tamanho maior; os controles agrupam desistir e recomeçar, e o placar mostra os totais da sessão. */
+.grade .quad.nome{padding:.25rem}
+.grade .quad.nome .foto-wrapper{position:relative;display:grid;place-items:center;width:4.8rem;height:5.6rem;max-width:100%;margin:0 auto .25rem;overflow:hidden;border-radius:8px;background:var(--lilas-forte)}
+.grade .quad.nome .foto-wrapper .ini{position:absolute;inset:0;display:grid;place-items:center;width:auto;height:auto;margin:0;border-radius:0;font:700 1rem/1 var(--serif);color:var(--ameixa)}
+.grade .quad.nome .foto-wrapper .foto{position:relative;z-index:1;display:block;width:100%;height:100%;margin:0;border-radius:0;object-fit:cover;object-position:center 20%;opacity:0;transition:opacity .25s ease}
+.grade .quad.nome .foto-wrapper .foto.capa-pronta{opacity:1}
+.nova-partida{margin-top:1.5rem}
+.acoes-jogo{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.2rem}
+.acoes-jogo .botao-sec,.acoes-jogo .nova-partida{margin-top:0}
+.placar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem;max-width:34rem;margin:0 0 1.5rem}
+.placar>div{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.65rem .85rem;border:1px solid var(--ameixa);border-radius:14px;background:var(--papel);box-shadow:3px 3px 0 var(--ameixa)}
+.placar dt{font-size:.85rem;font-weight:700}
+.placar dd{margin:0;font-family:var(--serif);font-size:1.25rem;font-weight:800;color:var(--ameixa)}
+.vitoria.desistencia{background:var(--lilas);color:var(--texto);border-color:var(--ameixa)}
+.vitoria.desistencia h4{color:var(--ameixa)}
+.vitoria.desistencia .vitoria-selo{background:var(--ameixa)}
+@media(max-width:30rem){.placar{gap:.4rem}.placar>div{flex-direction:column;justify-content:center;gap:.1rem;padding:.5rem .3rem;text-align:center}.placar dt{font-size:.72rem}.acoes-jogo{gap:.5rem}}
+
+
+/* ===== BLOCO CSS 46 de 68 · importância: complementar =====
+   TÍTULO: Efeito de escrita gradual (classes de apoio)
+   O QUE FAZ: js/escrita.js divide o texto em parte visível e parte restante. .escrita-restante fica invisível mas ocupa espaço, e .escrita-pendente esconde o sublinhado do que ainda não foi escrito. */
+/* O restante invisível reserva o espaço: a escrita não empurra o conteúdo. */
+.escrita-restante{visibility:hidden}
+.escrita-pendente:not(.escrita-ativa){text-decoration-color:transparent}
+
+
+/* ===== BLOCO CSS 47 de 68 · importância: complementar =====
+   TÍTULO: Animações suaves: abrir texto e botões
+   O QUE FAZ: O conteúdo da sanfona aparece com um leve deslize ao abrir; o '+' gira ao abrir; botões e links em pílula têm transição de cor, sombra e posição, e afundam 1px ao serem clicados. */
+.texto-projeto[open] .texto-projeto-conteudo{animation:abrir-texto .24s ease-out}
+@keyframes abrir-texto{from{opacity:.4;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.texto-projeto>summary::after{transition:background-color .2s ease,transform .2s ease}
+.texto-projeto[open]>summary::after{transform:rotate(180deg);background:var(--papel)}
+.temas-historias a,.botao,.botao-sec{transition:background-color .2s ease,box-shadow .2s ease,transform .2s ease}
+.botao:active,.botao-sec:active,.carta-botao:active{transform:translateY(1px)}
+
+
+/* ===== BLOCO CSS 48 de 68 · importância: importante =====
+   TÍTULO: Movimento reduzido (acessibilidade)
+   O QUE FAZ: Se o usuário pede menos movimento no sistema, desliga a rolagem suave, a animação do brilho das pistas, a abertura da sanfona e as transições dos botões. */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .fato.escrita-em-curso,.texto-projeto[open] .texto-projeto-conteudo{animation:none}
+  .texto-projeto>summary::after,.temas-historias a,.botao,.botao-sec{transition:none}
+}
+
+
+/* ===== BLOCO CSS 49 de 68 · importância: importante =====
+   TÍTULO: Cabeçalho no celular
+   O QUE FAZ: Em telas até 52rem o cabeçalho pode quebrar linha, o menu vai para a direita e os retratos ficam um pouco mais baixos. */
+@media(max-width:52rem){.topo .wrap{flex-wrap:wrap;gap:.65rem}.seletor-tema{margin-left:0}.seletor-tema select{max-width:8rem}.topo nav{margin-left:auto}.historia-retrato img{height:17rem}}
+
+
+/* ===== BLOCO CSS 50 de 68 · importância: importante =====
+   TÍTULO: Cartão de vitória: margem de rolagem e título
+   O QUE FAZ: scroll-margin-top evita que o cabeçalho fixo cubra o cartão quando a página rola até ele; o título da vitória fica maior e verde. */
+.vitoria{scroll-margin-top:6.5rem}
+.vitoria h4{font-size:clamp(1.8rem,4vw,2.6rem);color:var(--menta-escura)}
+
+
+/* ===== BLOCO CSS 51 de 68 · importância: importante =====
+   TÍTULO: Sugestões em destaque enquanto a pesquisa está aberta
+   O QUE FAZ: Quando o campo de busca está em foco, ganha contorno verde; a lista #sugestoes fica mais alta, com borda verde e sombra suave, itens maiores (mínimo 4rem), separados por linha e com foto quadrada arredondada. Hover em verde e item ativo em escuro. */
+.busca:focus-within input{outline:3px solid var(--menta-escura);outline-offset:3px}
+#sugestoes{max-height:19rem;border-color:var(--menta-escura);box-shadow:0 10px 28px #0003}
+#sugestoes .opcao{min-height:4rem;padding:.6rem .75rem;font-weight:700;gap:1rem}
+#sugestoes .opcao+.opcao{border-top:1px solid var(--lilas-forte)}
+#sugestoes .foto{width:3rem;height:3rem;border-radius:10px;object-position:center 20%}
+#sugestoes .opcao:hover{background:var(--menta)}
+#sugestoes .opcao.ativa{background:var(--ameixa);color:var(--papel)}
+
+
+/* ===== BLOCO CSS 52 de 68 · importância: complementar =====
+   TÍTULO: Motivos decorativos (ícones SVG por variável)
+   O QUE FAZ: Cada classe .motivo-* guarda em --motivo o caminho de um desenho SVG da pasta img/. Os blocos seguintes usam essa variável como máscara para desenhar o ícone no fundo das cartas e sanfonas. */
+.motivo-ano{--motivo:url("../img/motivo-ano.svg")}
+.motivo-passos{--motivo:url("../img/motivo-passos.svg")}
+.motivo-descoberta{--motivo:url("../img/motivo-descoberta.svg")}
+.motivo-ciencia{--motivo:url("../img/motivo-ciencia.svg")}
+.motivo-generos{--motivo:url("../img/motivo-ciencia.svg")}  /* alias anime */
+.motivo-historias{--motivo:url("../img/motivo-historias.svg")}
+.motivo-jogo{--motivo:url("../img/motivo-jogo.svg")}
+.motivo-equipe{--motivo:url("../img/motivo-equipe.svg")}
+
+
+/* ===== BLOCO CSS 53 de 68 · importância: complementar =====
+   TÍTULO: Cartas e sanfonas da página inicial com ilustração
+   O QUE FAZ: Dá a cada carta um brilho de fundo, o desenho (::before com mask), uma moldura fina (::after) e texto legível sobre fundo claro. As sanfonas também ganham ilustração grande e um quadro claro para o texto. Há ajustes para o tema escuro, o tema tijolos e o celular. */
+.pagina-inicial .cartas .carta{isolation:isolate;background-image:linear-gradient(140deg,#ffffff38,transparent 65%)}
+.pagina-inicial .cartas .carta::before{content:"";position:absolute;inset:18% 8% 16%;z-index:-1;pointer-events:none;background:var(--texto);mask:var(--motivo) center/contain no-repeat;opacity:.13}
+.pagina-inicial .cartas .carta::after{content:"";position:absolute;inset:.45em;z-index:-1;border:1px solid currentColor;border-radius:12px;opacity:.13;pointer-events:none}
+.pagina-inicial .cartas .carta>span{color:var(--texto);font-weight:700;background:var(--papel);padding:.35em .5em;border-radius:7px;box-shadow:0 1px 5px #0000000a}
+.pagina-inicial .cartas .carta>b{color:var(--texto)}
+.pagina-inicial .sobre-projeto .texto-projeto{position:relative;isolation:isolate;overflow:hidden;background-image:linear-gradient(110deg,#ffffff40,transparent)}
+.pagina-inicial .texto-projeto::before{content:"";position:absolute;right:2rem;top:.2rem;width:10rem;height:10rem;background:var(--texto);mask:var(--motivo) center/contain no-repeat;opacity:.08;z-index:-1;pointer-events:none}
+.pagina-inicial .texto-projeto h2{color:var(--texto);text-shadow:0 1px var(--papel)}
+.pagina-inicial .texto-projeto-conteudo{margin:0 .75rem .75rem;padding:1.1rem 1.25rem;border-radius:15px;background:var(--papel);border:1px solid var(--lilas-forte)}
+.pagina-inicial .texto-projeto-conteudo p{color:var(--texto)}
+html[data-tema="escuro"] .pagina-inicial .cartas .carta,html[data-tema="escuro"] .pagina-inicial .sobre-projeto .texto-projeto{background-image:linear-gradient(140deg,#ffffff08,transparent)}
+html[data-tema="tijolos"] .pagina-inicial .texto-projeto-conteudo{border-radius:4px}
+@media(max-width:52rem){.pagina-inicial .texto-projeto::before{right:1rem;width:8rem;height:8rem}.pagina-inicial .texto-projeto-conteudo{padding:1rem}}
+
+
+/* ===== BLOCO CSS 54 de 68 · importância: complementar =====
+   TÍTULO: Motivos extras (país, região e contribuição)
+   O QUE FAZ: Mais três ícones de --motivo, usados pelas pistas e quadrados do jogo. */
+.motivo-pais{--motivo:url("../img/motivo-pais.svg")}
+.motivo-studio{--motivo:url("../img/motivo-pais.svg")}         /* alias anime */
+.motivo-regiao{--motivo:url("../img/motivo-regiao.svg")}
+.motivo-rating{--motivo:url("../img/motivo-regiao.svg")}        /* alias anime */
+.motivo-contribuicao{--motivo:url("../img/motivo-contribuicao.svg")}
+.motivo-episodios{--motivo:url("../img/motivo-contribuicao.svg")} /* alias anime */
+
+
+/* ===== BLOCO CSS 55 de 68 · importância: complementar =====
+   TÍTULO: Símbolos nas pistas e nos quadrados
+   O QUE FAZ: Cada .fato e cada .quad ganha o ícone do seu campo como marca d'água (::before ou ::after com mask), e o texto ganha uma caixinha de fundo para continuar legível. As regras do bloco seguinte refinam este visual. */
+.fato{position:relative;isolation:isolate}
+.fato::before{content:"";position:absolute;right:.45rem;top:.45rem;width:5rem;height:5rem;z-index:-1;pointer-events:none;background:var(--texto);mask:var(--motivo) center/contain no-repeat;opacity:.09}
+.fato-rotulo{padding-right:2.25rem;color:var(--texto)}
+.fato-valor{display:table;max-width:100%;padding:.25rem .45rem;border-radius:6px;background:var(--papel);color:var(--texto);box-decoration-break:clone}
+.fato-detalhe{position:relative;color:var(--texto)}
+.quad:not(.nome)::after{content:"";position:absolute;inset:8% 10%;pointer-events:none;background:currentColor;mask:var(--motivo) center/contain no-repeat;opacity:.13}
+.quad .valor{display:inline-block;max-width:100%;padding:.22rem .3rem;border-radius:6px;background:#00000028}
+.quad.perto .valor{background:#ffffffa6}
+.quad.indisp .valor{background:var(--papel);color:var(--texto)}
+.quad .sinal{opacity:1;font-weight:800}
+
+
+/* ===== BLOCO CSS 56 de 68 · importância: complementar =====
+   TÍTULO: Fundos integrados (limpam os efeitos anteriores)
+   O QUE FAZ: Remove as caixinhas e sombras atrás das palavras do bloco anterior, deixando um degradê suave no fundo e o ícone mais discreto. Por vir depois, estas regras sobrescrevem as anteriores. */
+.fato{background-image:linear-gradient(120deg,#ffffff30,transparent 70%)}
+.fato::before{right:-.3rem;top:.2rem;width:6.5rem;height:6.5rem;opacity:.065;mask-size:contain}
+.fato-valor{display:block;padding:0;border-radius:0;background:none;box-shadow:none;text-shadow:none;color:var(--texto)}
+.fato-detalhe,.fato-rotulo{box-shadow:none;text-shadow:none}
+.quad:not(.nome){background-image:linear-gradient(145deg,#ffffff1f,transparent 60%,#00000012)}
+.quad:not(.nome)::after{inset:5% -8% 5% 30%;opacity:.085}
+.quad .valor,.quad.perto .valor,.quad.indisp .valor{display:inline;padding:0;border-radius:0;background:none;box-shadow:none;text-shadow:none}
+.quad .sinal{text-shadow:none;box-shadow:none}
+
+/* Miniaturas nas sugestões do jogo */
+.foto-wrapper{position:relative;flex:none;width:3rem;height:3rem;overflow:hidden;border-radius:10px;background:var(--lilas-forte)}
+#sugestoes .foto-wrapper{width:3rem;height:3rem}
+.opcao .foto-wrapper .ini{position:absolute;inset:0;display:grid;place-items:center;width:auto;height:auto;margin:0;border-radius:0;font:700 1rem/1 var(--serif);color:var(--ameixa)}
+.foto-wrapper .foto{position:relative;z-index:1;display:block;width:100%;height:100%;border-radius:0;object-fit:cover;opacity:0;transition:opacity .25s ease}
+.foto-wrapper .foto.capa-pronta{opacity:1}
+.nome-resposta{color:inherit;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.18em}
+.nome-resposta:hover{text-decoration-thickness:2px}
+
+/* Tema sakura */
+:root[data-tema="sakura"]{--lilas:#ffe7f1;--lilas-forte:#ffc2dc;--ameixa:#541338;--papel:#fffafd;--menta:#d8f6eb;--menta-escura:#14634f;--coral:#ffd4e5;--coral-escura:#a32b58;--texto:#38152a;--suave:#79536a}
+html[data-tema="sakura"] body{background-image:radial-gradient(ellipse at 90% 0%,#ffc2dc40,transparent 38%)}
+html[data-tema="sakura"] .abertura,html[data-tema="sakura"] .historias-abertura{background-image:radial-gradient(ellipse at 82% 18%,#ffc2dc70,transparent 38%),linear-gradient(145deg,var(--lilas),var(--papel))}
+html[data-tema="sakura"] footer{background:var(--ameixa)}
+html[data-tema="sakura"] .perto{background:#fff1b8;color:#7a5a00}
+.quad.antes::before,.quad.depois::before{background:#00000018}
+html[data-tema="escuro"] .fato{background-image:linear-gradient(120deg,#ffffff08,transparent 70%)}
+
+
+/* ===== BLOCO CSS 57 de 68 · importância: importante =====
+   TÍTULO: Exemplo guiado de partida (Como funciona)
+   O QUE FAZ: Estilo da demonstração interativa de js/exemplo.js: .exemplo-partida é o cartão geral; .exemplo-pista é a pista em destaque; .exemplo-pessoa mostra foto e nome; .exemplo-comparacoes e .exemplo-campo são as 5 caixas coloridas (dt = campo, dd = valor). Em telas menores as caixas passam para 2 ou 1 coluna. */
+.exemplo-partida{margin:2.5rem 0;padding:clamp(1rem,3vw,2rem);border:2px solid var(--ameixa);border-radius:24px;background:var(--papel);box-shadow:5px 5px 0 var(--lilas-forte)}
+.exemplo-partida h2{font-size:clamp(1.7rem,4vw,2.5rem);margin-bottom:1rem}
+.exemplo-etiqueta{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:var(--suave);margin-bottom:.65rem}
+.exemplo-pista{margin:1.5rem 0;padding:1rem 1.25rem;border-left:4px solid var(--menta-escura);background:var(--menta);border-radius:0 12px 12px 0}
+.exemplo-pista p{margin:.4rem 0 0}
+.exemplo-pessoa{display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem}
+.exemplo-pessoa img{width:3.8rem;height:4.4rem;object-fit:cover;object-position:center 20%;border-radius:10px}
+.exemplo-pessoa h3{font-size:1.5rem}
+.exemplo-comparacoes{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.65rem;margin:0}
+.exemplo-pessoa-capa{position:relative;flex:none;width:3.8rem;height:4.4rem;overflow:hidden;border-radius:10px;background:var(--lilas-forte)}
+.exemplo-pessoa-capa .ini{position:absolute;inset:0;display:grid;place-items:center;width:auto;height:auto;border-radius:0;font:700 1.5rem/1 var(--serif);color:var(--ameixa)}
+.exemplo-pessoa-capa img{position:relative;z-index:1;display:block;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .3s}
+.exemplo-pessoa-capa img.capa-pronta{opacity:1}
+.exemplo-campo{padding:.85rem;border-radius:12px;color:#fff;overflow-wrap:anywhere;background:#b72525}
+.exemplo-campo.ok{background:#216b42}
+.exemplo-campo.perto{background:#f4c542;color:#2b1a3d}
+.exemplo-campo dt{font-size:.7rem;font-weight:700;text-transform:uppercase;margin-bottom:.5rem}
+.exemplo-campo dd{margin:0;font-size:.95rem;font-weight:700;line-height:1.4}
+.exemplo-campo .exemplo-estado{font-size:.75rem;font-weight:500;margin-top:.7rem}
+.exemplo-explicacao{max-width:75ch;margin:1.25rem 0 0;line-height:1.7}
+.exemplo-controles{display:flex;flex-wrap:wrap;gap:.75rem}
+@media(max-width:52rem){.exemplo-comparacoes{grid-template-columns:repeat(2,minmax(0,1fr))}.exemplo-campo:last-child{grid-column:1/-1}}
+@media(max-width:24rem){.exemplo-comparacoes{grid-template-columns:1fr}}
+
+
+/* ===== BLOCO CSS 58 de 68 · importância: importante =====
+   TÍTULO: Cartas de dica (viram ao revelar)
+   O QUE FAZ: .cartas-dicas é a fileira de 3 cartas; cada .carta-dica tem verso (.dica-verso, escuro com listras) e frente (.dica-frente, verde) empilhados no mesmo lugar. Ao receber .revelada, o verso gira e some e a frente gira e aparece, em efeito 3D (rotateY, backface-visibility). */
+.dicas-extras{margin:1.5rem 0 2rem}
+.dicas-extras .nota{margin:.4rem 0 .85rem}
+.cartas-dicas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}
+.carta-dica{display:grid;min-height:10rem;perspective:800px}
+.dica-verso,.dica-frente{grid-area:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;padding:1rem .6rem;text-align:center;border:2px solid var(--ameixa);border-radius:14px;backface-visibility:hidden;overflow-wrap:anywhere}
+.dica-verso{background:repeating-linear-gradient(45deg,transparent,transparent 10px,#ffffff0b 10px,#ffffff0b 12px),var(--ameixa);color:var(--papel)}
+.dica-verso b{font:2.5rem var(--serif)}
+.dica-verso strong,.dica-frente span{font-size:.8rem}
+.dica-verso span,.dica-frente small{font-size:.7rem}
+.dica-frente{background:var(--menta);color:var(--texto);transform:rotateY(-180deg)}
+.dica-frente strong{font-size:1.2rem;line-height:1.3}
+.revelada .dica-verso{animation:fechar-verso .8s ease-in-out both}
+.revelada .dica-frente{animation:abrir-frente .8s ease-in-out both}
+@keyframes fechar-verso{to{transform:rotateY(180deg)}}
+@keyframes abrir-frente{to{transform:rotateY(0)}}
+@media(prefers-reduced-motion:reduce){.revelada .dica-verso{animation:none;transform:rotateY(180deg)}.revelada .dica-frente{animation:none;transform:none}}
+@media(max-width:30rem){.cartas-dicas{gap:.4rem}.dica-verso,.dica-frente{padding:.75rem .3rem}.dica-frente strong{font-size:1rem}}
+
+
+/* ===== BLOCO CSS 59 de 68 · importância: importante =====
+   TÍTULO: Dicas e pista mais compactas
+   O QUE FAZ: Reduz alturas, espaços e tamanhos de letra das cartas de dica e do texto da pista para caber melhor na tela do jogo. */
+.pagina-jogo #pista{margin-bottom:.6rem}
+.dicas-extras{margin:.65rem 0 1rem}
+.dicas-extras .nota{margin:.2rem 0 .5rem;font-size:.85rem}
+.cartas-dicas{gap:.55rem}
+.carta-dica{min-height:7rem}
+.dica-verso,.dica-frente{padding:.6rem .5rem;gap:.25rem}
+.dica-verso b{font-size:1.8rem;line-height:1}
+.dicas-extras h3{margin-bottom:.3rem}
+@media(max-width:30rem){.carta-dica{min-height:6.5rem}.dica-verso,.dica-frente{padding:.5rem .3rem}}
+
+
+/* ===== BLOCO CSS 60 de 68 · importância: importante =====
+   TÍTULO: Espaçamento mínimo entre pista, cartas e pesquisa
+   O QUE FAZ: Segunda rodada de compactação, mais forte que a anterior: aproxima ainda mais título, pista, cartas de dica e campo de busca, sem deixar nada sobreposto. Vem por último, então vence o bloco anterior. */
+.pagina-jogo .jogo-principal>.painel:first-child>h3{margin-bottom:.2rem}
+.pagina-jogo #pista{margin-bottom:.3rem;line-height:1.45}
+.dicas-extras{padding:0;margin:.35rem 0 .45rem}
+.dicas-extras h3{margin-bottom:.15rem}
+.dicas-extras .nota{margin:.1rem 0 .3rem;line-height:1.3;font-size:.8rem}
+.cartas-dicas{gap:.35rem}
+.carta-dica{min-height:5.25rem}
+.dica-verso,.dica-frente{padding:.4rem .35rem;gap:.15rem;border-radius:10px}
+.dica-verso b{font-size:1.4rem;line-height:1}
+.dica-verso strong,.dica-frente span{font-size:.75rem;line-height:1.2}
+.dica-verso span,.dica-frente small{font-size:.65rem;line-height:1.2}
+.dica-frente strong{font-size:1.05rem;line-height:1.2}
+.pagina-jogo .jogo-principal>.painel:first-child>.rotulo{margin-bottom:.2rem;line-height:1.3}
+@media(max-width:30rem){.carta-dica{min-height:5.25rem}.dica-verso,.dica-frente{padding:.4rem .25rem}.dica-frente strong{font-size:.95rem}}
+
+
+/* ===== BLOCO CSS 61 de 68 · importância: importante =====
+   TÍTULO: Botão de tema (◐)
+   O QUE FAZ: Alinha o menu ao centro e estiliza .botao-tema, o botão redondo de 44px que js/temas.js usa para trocar entre claro, escuro e tijolos. */
+.topo nav{align-items:center}
+.botao-tema{display:inline-grid;place-items:center;flex-shrink:0;width:44px;height:44px;padding:0;border:1px solid var(--ameixa);border-radius:50%;background:var(--papel);color:var(--texto);font:1.6rem/1 var(--sans);cursor:pointer}
+.botao-tema:hover{background:var(--lilas-forte)}
+/* ═══════════════════════════════════════════
+   Ultimate Anime DLE — adições específicas
+═══════════════════════════════════════════ */
+
+/* Linha de metadados na tela de vitória */
+.vitoria-detalhe{
+  font-size:.9rem;
+  opacity:.85;
+  margin-top:.4rem;
+}
+
+/* Iniciais no exemplo guiado (substitui foto) */
+.exemplo-pessoa .ini{
+  display:grid;
+  place-items:center;
+  flex:none;
+  width:3rem;
+  height:3rem;
+  border-radius:50%;
+  background:var(--lilas-forte);
+  font-weight:700;
+  font-size:1.3rem;
+  color:var(--ameixa);
+}
+
+/* ═══════════════════════════════════════════
+   Ultimate Anime DLE — Catálogo & Capas
+═══════════════════════════════════════════ */
+
+/* Vitória: linha de metadados */
+.vitoria-detalhe{font-size:.9rem;opacity:.8;margin-top:.4rem}
+
+/* Vitória: capa do anime */
+.vitoria-capa-wrap{
+  display:flex;gap:1.2rem;align-items:flex-start;margin-bottom:1rem
+}
+.vitoria-capa{
+  flex:none;width:7rem;border-radius:10px;
+  overflow:hidden;border:2px solid rgba(0,0,0,.15);
+  background:var(--lilas);aspect-ratio:3/4
+}
+.vitoria-capa img{width:100%;height:100%;object-fit:cover;display:block}
+.vitoria-capa.capa-erro{display:none}
+.vitoria-info{flex:1;min-width:0}
+
+/* Iniciais no exemplo guiado */
+.exemplo-pessoa .ini{
+  display:grid;place-items:center;flex:none;
+  width:3rem;height:3rem;border-radius:50%;
+  background:var(--lilas-forte);font-weight:700;
+  font-size:1.3rem;color:var(--ameixa)
+}
+
+/* Catálogo — grid de todos os animes */
+.catalogo-filtros{
+  display:flex;flex-wrap:wrap;gap:.6rem;
+  margin-bottom:1.8rem
+}
+.catalogo-filtros button{
+  padding:.35rem .9rem;border:2px solid var(--ameixa);
+  border-radius:999px;background:transparent;
+  color:var(--ameixa);font:inherit;font-size:.85rem;
+  cursor:pointer;transition:background .15s,color .15s
+}
+.catalogo-filtros button.ativo,
+.catalogo-filtros button:hover{
+  background:var(--ameixa);color:var(--papel)
+}
+.catalogo-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(10rem,1fr));
+  gap:1.2rem
+}
+.anime-card{
+  border:2px solid var(--ameixa);border-radius:14px;
+  overflow:hidden;background:var(--papel);
+  display:flex;flex-direction:column;
+  transition:transform .15s,box-shadow .15s;
+  /* reset de link: o card é um <a> */
+  text-decoration:none;color:inherit
+}
+.anime-card:hover{
+  transform:translate(-2px,-2px);
+  box-shadow:4px 4px 0 var(--ameixa)
+}
+.anime-card:focus-visible{
+  outline:3px solid var(--ameixa);outline-offset:2px
+}
+.anime-card-capa{
+  width:100%;aspect-ratio:3/4;
+  background:var(--lilas);position:relative;overflow:hidden
+}
+.anime-card-capa img{
+  width:100%;height:100%;object-fit:cover;
+  display:block;opacity:0;transition:opacity .3s
+}
+.anime-card-capa img.capa-pronta{opacity:1}
+.anime-card-capa .ini{
+  position:absolute;inset:0;display:grid;
+  place-items:center;font-size:2rem;font-weight:700;
+  color:var(--ameixa);opacity:.35
+}
+.anime-card-info{padding:.6rem .7rem;flex:1}
+.anime-card-info h3{
+  margin:0 0 .2rem;font-size:.82rem;line-height:1.3;
+  color:var(--texto);display:-webkit-box;
+  -webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden
+}
+.anime-card-info small{
+  font-size:.72rem;color:var(--suave);display:block
+}
+.anime-card-rating{
+  display:inline-block;font-size:.68rem;font-weight:700;
+  padding:.1rem .4rem;border-radius:4px;margin-top:.3rem;
+  background:var(--lilas-forte);color:var(--ameixa)
+}
+/* contador */
+.catalogo-total{font-size:.9rem;color:var(--suave);margin-bottom:1rem}
+.catalogo-busca{margin-bottom:.4rem}
+.catalogo-busca-campo{display:block;width:min(100%,36rem);min-height:3.25rem;margin-bottom:1.5rem;padding:.75rem 1rem;border:2px solid var(--ameixa);border-radius:14px;background:var(--papel);color:var(--texto);font:inherit}
+.catalogo-busca-campo:focus-visible{outline:3px solid var(--menta-escura);outline-offset:3px}
+.catalogo-grid>.vazio{grid-column:1/-1;padding:1.25rem;border:1px dashed var(--lilas-forte);border-radius:14px;background:var(--papel)}
+
+/* Acabamento visual e comportamento responsivo */
+body{background-image:radial-gradient(ellipse at 90% 0%,#a5b4fc18,transparent 38%)}
+.topo{border-bottom-width:1px;box-shadow:0 6px 24px #1e1b4b10;backdrop-filter:blur(14px)}
+.topo .wrap{min-height:4.5rem}
+.marca{letter-spacing:-.02em}
+.marca i{box-shadow:0 4px 12px #1e1b4b24}
+.topo nav a{min-height:2.75rem;display:inline-flex;align-items:center;justify-content:center;transition:background-color .2s ease,transform .2s ease}
+.topo nav a:hover{transform:translateY(-1px)}
+.botao-tema{transition:background-color .2s ease,transform .2s ease}
+.botao-tema:hover{transform:rotate(-8deg)}
+.abertura,.historias-abertura{position:relative;isolation:isolate;background-image:radial-gradient(ellipse at 82% 18%,#a5b4fc35,transparent 38%),linear-gradient(145deg,var(--lilas),var(--papel))}
+.abertura h1{font-size:clamp(3rem,6.5vw,5.25rem)}
+.abertura h1,.historias-abertura h1{letter-spacing:-.045em}
+.abertura .lide,.historias-intro{line-height:1.55}
+.cartas .carta{box-shadow:5px 7px 0 var(--ameixa),0 12px 28px #1e1b4b12}
+.botao,.carta-botao{box-shadow:0 8px 20px #1e1b4b20}
+.sobre-projeto .texto-projeto{transition:transform .2s ease,box-shadow .2s ease}
+.sobre-projeto .texto-projeto:hover{transform:translateY(-2px);box-shadow:7px 7px 0 var(--ameixa)}
+.painel,.exemplo-partida,.historia-card{box-shadow:0 8px 24px #1e1b4b0d,5px 5px 0 var(--ameixa)}
+.painel h3{letter-spacing:-.015em}
+.busca input{min-height:3.25rem}
+.catalogo-filtros button{min-height:2.75rem}
+.catalogo-grid{grid-template-columns:repeat(auto-fill,minmax(9.5rem,1fr));gap:1rem}
+.anime-card{border-width:1px;border-radius:16px;box-shadow:0 3px 12px #1e1b4b0d}
+.anime-card:hover{transform:translateY(-4px);box-shadow:0 12px 24px #1e1b4b20}
+.anime-card-capa{background:linear-gradient(145deg,#312e81,#a5b4fc 58%,#ffd3c9)}
+.anime-card-capa img{position:relative;z-index:1;transition:opacity .3s,transform .45s cubic-bezier(.2,.7,.3,1)}
+.anime-card:hover .anime-card-capa img{transform:scale(1.045)}
+.anime-card-capa .ini{font-family:var(--serif);font-size:clamp(2.5rem,5vw,4rem);font-weight:700;color:#fff;opacity:.72;text-shadow:0 3px 12px #1e1b4b66}
+.anime-card-info{padding:.8rem;min-height:7.25rem}
+.anime-card-info h3{font-size:.9rem;min-height:2.35em}
+.anime-card-info small{line-height:1.45}
+.anime-card-rating{border-radius:999px;padding:.2rem .55rem}
+::selection{background:var(--ameixa);color:var(--papel)}
+
+@media(max-width:52rem){
+  .topo nav a:not(.destaque){display:inline-flex}
+  .topo .wrap{align-items:center}
+  .topo nav{flex-wrap:wrap;justify-content:flex-end;gap:.2rem}
+  .topo nav a{padding:.4rem .65rem;font-size:.86rem}
+  .topo nav a:hover{transform:none}
+  .cartas .carta{box-shadow:4px 5px 0 var(--ameixa),0 8px 20px #1e1b4b12}
+}
+@media(max-width:38rem){
+  .topo .wrap{justify-content:center}
+  .marca{width:100%;justify-content:center;font-size:1.05rem}
+  .topo nav{width:100%;margin:0;justify-content:center}
+  .topo nav a{padding-inline:.55rem;font-size:.8rem}
+  .catalogo-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
+  .anime-card-info{padding:.65rem;min-height:7rem}
+  .anime-card-info h3{font-size:.84rem}
+}
+@media(max-width:24rem){
+  .wrap{width:min(100% - 1.5rem,68rem)}
+  .topo nav{gap:.15rem}
+  .topo nav a{padding-inline:.4rem;font-size:.76rem}
+  .botao-tema{width:40px;height:40px}
+}
+@media(prefers-reduced-motion:reduce){
+  .topo nav a,.botao-tema,.sobre-projeto .texto-projeto,.anime-card,.anime-card-capa img{transition:none}
+}

@@ -1,0 +1,56 @@
+/* ===== BLOCO CSS 62 de 68 · importância: importante =====
+   TÍTULO: Botão flutuante de acessibilidade
+   O QUE FAZ: .a11y-abrir fica fixo no canto inferior direito da tela com borda e sombra, para abrir o painel. O body ganha folga embaixo para o botão não cobrir o rodapé. */
+.a11y-abrir{position:fixed;right:1rem;bottom:1rem;z-index:50;border:2px solid var(--texto);border-radius:999px;padding:.7rem 1rem;background:var(--papel);color:var(--texto);font:700 1rem/1.3 var(--sans);box-shadow:0 3px 12px #0002;cursor:pointer}
+body{padding-bottom:4.5rem}
+
+
+/* ===== BLOCO CSS 63 de 68 · importância: essencial =====
+   TÍTULO: Painel de acessibilidade (janela dialog)
+   O QUE FAZ: #a11y-painel é a janela criada por js/acessibilidade.js: largura limitada, rolagem própria se passar de 85% da altura, cantos arredondados; ::backdrop escurece o resto da página. */
+#a11y-painel{width:min(34rem,calc(100% - 1.5rem));max-height:85dvh;overflow:auto;border:2px solid var(--texto);border-radius:18px;padding:1.4rem;background:var(--papel);color:var(--texto);font:1rem/1.6 var(--sans)}
+#a11y-painel::backdrop{background:#0009}
+
+
+/* ===== BLOCO CSS 64 de 68 · importância: importante =====
+   TÍTULO: Conteúdo do painel (títulos, botões, opções)
+   O QUE FAZ: Cabeçalho do painel em linha, títulos, parágrafos, botões e listas suspensas com área de toque de pelo menos 44px, caixas de seleção grandes (.a11y-opcao), grupo de ações que quebra linha e aparência de desativado. */
+.a11y-cabecalho{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem}
+#a11y-painel h2{font-size:1.6rem}#a11y-painel h3{margin-top:1rem;font-size:1.25rem}
+#a11y-painel p{margin:.65rem 0}
+#a11y-painel button,#a11y-painel select{font:inherit;color:var(--texto);background:var(--papel);border:2px solid var(--texto);border-radius:8px;padding:.45rem .7rem;min-height:44px;cursor:pointer}
+#a11y-painel select{display:block;width:100%;margin:.3rem 0 .8rem}
+.a11y-opcao{display:flex;align-items:center;gap:.65rem;min-height:44px;margin:.45rem 0;cursor:pointer}
+.a11y-opcao input{width:1.3rem;height:1.3rem;flex-shrink:0;accent-color:var(--menta-escura)}
+.a11y-acoes{display:flex;flex-wrap:wrap;gap:.5rem}
+#a11y-painel :disabled{opacity:.6;cursor:not-allowed}
+
+
+/* ===== BLOCO CSS 65 de 68 · importância: importante =====
+   TÍTULO: Foco visível reforçado
+   O QUE FAZ: Contorno de 3px na cor do texto atual em qualquer elemento focado pelo teclado. Como este arquivo carrega depois de style.css, ele vence a regra de foco do arquivo principal. */
+:focus-visible{outline:3px solid currentColor;outline-offset:4px}
+
+
+/* ===== BLOCO CSS 66 de 68 · importância: importante =====
+   TÍTULO: Opção 'sem animação'
+   O QUE FAZ: Quando js/acessibilidade.js coloca a classe a11y-sem-animacao no <html>, a rolagem fica sem suavidade e todas as animações e transições são reduzidas a praticamente zero. */
+html.a11y-sem-animacao,html.a11y-sem-animacao *{scroll-behavior:auto!important}
+html.a11y-sem-animacao *,html.a11y-sem-animacao *::before,html.a11y-sem-animacao *::after{animation-duration:.001ms!important;animation-delay:0ms!important;transition-duration:.001ms!important;transition-delay:0ms!important}
+
+
+/* ===== BLOCO CSS 67 de 68 · importância: essencial =====
+   TÍTULO: Opção 'alto contraste'
+   O QUE FAZ: Com a classe a11y-contraste no <html>, as variáveis de cor viram preto, branco e amarelo; todos os elementos ficam com fundo preto, texto branco e borda branca (sem imagens de fundo nem sombras); links ficam amarelos e sublinhados; o foco e as caixas de seleção também ficam amarelos. */
+html.a11y-contraste{--papel:#000;--texto:#fff;--ameixa:#fff;--suave:#fff;--lilas:#000;--lilas-forte:#fff;--menta:#000;--menta-escura:#ffeb3b;--coral:#000;--coral-escura:#fff}
+html.a11y-contraste body,html.a11y-contraste body *{background-color:#000!important;background-image:none!important;color:#fff!important;text-shadow:none!important;box-shadow:none!important;border-color:#fff!important}
+html.a11y-contraste a{color:#ffeb3b!important;text-decoration:underline}
+html.a11y-contraste body *::before,html.a11y-contraste body *::after{background-image:none!important;mask-image:none!important;box-shadow:none!important}
+html.a11y-contraste :focus-visible{outline-color:#ffeb3b!important}
+html.a11y-contraste input{accent-color:#ffeb3b}
+
+
+/* ===== BLOCO CSS 68 de 68 · importância: importante =====
+   TÍTULO: Painel no celular
+   O QUE FAZ: Em telas até 40rem o botão flutuante e o painel ficam menores e mais próximos da borda. */
+@media(max-width:40rem){.a11y-abrir{right:.6rem;bottom:.6rem;font-size:.9rem}#a11y-painel{padding:1rem}}

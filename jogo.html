@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1e1b4b">
+<title>Jogar — Ultimate Anime DLE</title>
+<meta name="description" content="Adivinhe o anime do dia com base na pista e nas comparações de estúdio, rating, gêneros e episódios.">
+<link rel="stylesheet" href="css/style.css?v=tema-icone-1">
+<script src="js/transicoes.js?v=acessibilidade-1" defer></script>
+<script src="js/temas.js?v=icone-1" defer></script>
+<link rel="stylesheet" href="css/acessibilidade.css?v=1">
+<script src="js/acessibilidade.js?v=1" defer></script>
+</head>
+<body class="pagina-jogo">
+<a class="pular" href="#principal">Pular para o conteúdo</a>
+
+<header class="topo">
+  <div class="wrap">
+    <a class="marca" href="index.html"><i>🎌</i> Ultimate Anime DLE</a>
+    <nav aria-label="Principal">
+      <a href="index.html#inicio">O projeto</a>
+      <a href="como-funciona.html">Como funciona</a>
+      <a href="historias.html">Animes</a>
+      <a class="destaque" href="jogo.html" aria-current="page">Jogar</a>
+      <button id="tema-site" class="botao-tema" type="button" aria-label="Mudar tema"><span aria-hidden="true">◐</span></button>
+    </nav>
+  </div>
+</header>
+
+<main id="principal">
+  <section id="jogo">
+    <div class="wrap">
+      <h2 class="titulo">Qual anime é esse?</h2>
+      <dl id="placar" class="placar" aria-label="Placar salvo neste navegador">
+        <div><dt>Acertos</dt><dd id="placar-acertos">0</dd></div>
+        <div><dt>Tentativas</dt><dd id="placar-tentativas">0</dd></div>
+        <div><dt>Desistências</dt><dd id="placar-desistencias">0</dd></div>
+      </dl>
+      <p id="aviso-dados" class="aviso" role="alert" hidden></p>
+
+      <div class="jogo">
+        <div class="jogo-principal">
+        <div class="painel">
+          <h3>Pista</h3>
+          <p id="pista"></p>
+          <section class="dicas-extras" aria-labelledby="titulo-dicas-extras">
+            <h3 id="titulo-dicas-extras">Cartas de dicas</h3>
+            <p class="nota">Cada erro aproxima você de uma nova dica.</p>
+            <div id="cartas-dicas" class="cartas-dicas" aria-live="polite"></div>
+          </section>
+
+          <h3>Seu palpite</h3>
+          <label for="busca" class="rotulo">Pesquise pelo nome do anime</label>
+          <div class="busca">
+            <input id="busca" type="text" role="combobox" autocomplete="off"
+                   aria-autocomplete="list" aria-expanded="false" aria-controls="sugestoes">
+            <ul id="sugestoes" role="listbox" aria-label="Sugestões de animes" hidden></ul>
+          </div>
+          <p id="status" class="sr" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="painel">
+          <h3>Tentativas</h3>
+          <p class="resumo-ajuda">Ano: lançamento. Estúdio: produtora principal. Rating: faixa de avaliação (ex: 8-9). Gêneros: parcial (≈) se houver algum em comum.</p>
+          <div id="historico"><p class="vazio">Nenhuma tentativa ainda.</p></div>
+          <div id="vitoria" class="vitoria" tabindex="-1" hidden></div>
+          <div class="acoes-jogo">
+            <button id="desistir" class="botao-sec" type="button">Desistir</button>
+            <button id="nova-partida" class="botao-sec nova-partida" type="button" hidden>Nova partida</button>
+          </div>
+        </div>
+        </div>
+        <aside class="painel resumo-fatos" aria-labelledby="titulo-fatos">
+          <h3 id="titulo-fatos">Fatos descobertos</h3>
+          <p class="resumo-ajuda">As dicas aparecem conforme cada resultado é revelado.</p>
+          <dl id="resumo-fatos" class="resumo-grade"></dl>
+        </aside>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <strong>Ultimate Anime DLE</strong>
+    <p>Jogo de adivinhação de animes</p>
+  </div>
+</footer>
+
+<!-- Ordem importa: dados e loader primeiro, lógica por último. -->
+<script src="js/animes.js?v=2"></script>
+<script src="js/img-loader.js?v=5"></script>
+<script src="js/jogo.js?v=2"></script>
+<script src="js/escrita.js?v=acessibilidade-1"></script>
+</body>
+</html>

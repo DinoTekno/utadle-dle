@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1a1a2e">
+<title>Como funciona — Ultimate Anime DLE</title>
+<meta name="description" content="Aprenda a jogar o Ultimate Anime DLE: leia a pista, chute um anime e use as comparações para descobrir o anime do dia.">
+<link rel="stylesheet" href="css/style.css?v=tema-icone-1">
+<script src="js/transicoes.js?v=acessibilidade-1" defer></script>
+<script src="js/temas.js?v=icone-1" defer></script>
+<link rel="stylesheet" href="css/acessibilidade.css?v=1">
+<script src="js/acessibilidade.js?v=1" defer></script>
+</head>
+<body class="pagina-interna">
+<a class="pular" href="#principal">Pular para o conteúdo</a>
+
+<header class="topo">
+  <div class="wrap">
+    <a class="marca" href="index.html"><i>🎌</i> Ultimate Anime DLE</a>
+    <nav aria-label="Principal">
+      <a href="index.html#inicio">O projeto</a>
+      <a href="como-funciona.html" aria-current="page">Como funciona</a>
+      <a href="historias.html">Animes</a>
+      <a class="destaque" href="jogo.html">Jogar</a>
+      <button id="tema-site" class="botao-tema" type="button" aria-label="Mudar tema"><span aria-hidden="true">◐</span></button>
+    </nav>
+  </div>
+</header>
+
+<main id="principal">
+  <section id="como">
+    <div class="wrap">
+      <h2 class="titulo">Como funciona</h2>
+      <p>Um anime é sorteado a cada partida. Você tenta adivinhar qual é e, a cada chute, compara os dados com o anime correto.</p>
+      <ol class="passos">
+        <li><h3>Leia a pista</h3><p>Uma frase que descreve o anime sem revelar o nome.</p></li>
+        <li><h3>Chute um anime</h3><p>Digite no campo e escolha um anime da lista.</p></li>
+        <li><h3>Compare e acerte</h3><p>Use os resultados para chegar à resposta certa.</p></li>
+      </ol>
+      <div class="legenda" role="list" aria-label="Legenda dos resultados">
+        <div class="ok" role="listitem"><b>✓</b>Correto: igual à resposta.</div>
+        <div class="erro" role="listitem"><b>×</b>Diferente da resposta.</div>
+        <div class="perto" role="listitem"><b>≈</b>Parcial: há itens em comum.</div>
+        <div class="seta" role="listitem"><b>↑ ↓</b>O ano certo veio depois ou antes.</div>
+      </div>
+      <p class="nota">Os cinco campos comparados são: <strong>Ano de lançamento</strong>, <strong>Estúdio</strong>, <strong>Rating</strong>, <strong>Gêneros</strong> e <strong>Episódios</strong>. Gêneros usa comparação parcial (≈) quando há pelo menos um em comum. Estúdio, Rating e Episódios são comparações exatas.</p>
+      <section class="exemplo-partida" aria-labelledby="titulo-exemplo">
+        <p class="exemplo-etiqueta">Uma partida, passo a passo</p>
+        <h2 id="titulo-exemplo">Veja as pistas se encaixarem</h2>
+        <p>Este exemplo tem uma resposta fixa. No jogo, o anime é sorteado a cada nova partida.</p>
+        <blockquote class="exemplo-pista"><strong>Pista</strong><p>A humanidade vive atrás de muros gigantescos para se proteger de criaturas que devoram pessoas. Um jovem com ódio profundo dessas criaturas se alista na tropa de elite e descobre verdades sombrias sobre o mundo em que vive.</p></blockquote>
+        <div id="exemplo-resultado" aria-live="polite" aria-atomic="true"></div>
+        <div class="exemplo-controles">
+          <button class="botao-sec" id="exemplo-proximo" type="button" hidden>Ver próximo palpite →</button>
+          <button class="botao-sec" id="exemplo-reiniciar" type="button" hidden>Rever exemplo</button>
+        </div>
+        <noscript><p>Primeiro, Naruto: a seta indica que o anime da resposta é mais recente que 2002, e os episódios longos coincidem. Depois, Kimetsu no Yaiba: a seta inverte — o alvo é anterior a 2019, e os gêneros Ação e Fantasia são parciais. Por fim, Shingeki no Kyojin: todos os campos coincidem e a partida termina em acerto.</p></noscript>
+      </section>
+      <a class="botao" href="jogo.html">Ir para o jogo →</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <strong>Ultimate Anime DLE</strong>
+    <p>Jogo de adivinhação de animes</p>
+  </div>
+</footer>
+<script src="js/escrita.js?v=acessibilidade-1"></script>
+<script src="js/animes.js?v=1"></script>
+<script src="js/img-loader.js?v=5"></script>
+<script src="js/exemplo.js?v=3"></script>
+</body>
+</html>
